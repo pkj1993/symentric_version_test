@@ -32,15 +32,15 @@ def increment_version(current_version, increment_type):
 def main():
     try:
         current_version=sys.argv[1]
-        issue_type=sys.argv[2]
+        #issue_type=sys.argv[2]
         print(current_version)
-        print(issue_type)
+        #print(issue_type)
         #current_version = input("Enter current version (MAJOR.MINOR.PATCH, or leave empty for 0.0.0): ").strip()
         if not current_version:
             current_version = '0.0.0'
         
         #issue_type = input("Enter issue type (chore/docs/feat/fix/refactor/style/test): ").strip().lower()
-        
+        issue_type="feat"
         if issue_type in issue_type_to_increment:
             increment_type = issue_type_to_increment[issue_type]
             new_version = increment_version(current_version, increment_type)
