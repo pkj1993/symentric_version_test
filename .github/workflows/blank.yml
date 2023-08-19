@@ -32,6 +32,7 @@ jobs:
         id: get_tags
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
         run: |
           repo_owner=${{ github.repository_owner }}
           repo_name=${{ github.repository }}
@@ -40,4 +41,4 @@ jobs:
 
           echo "Repository Tags:"
           echo "$repo_tags"
-
+        
