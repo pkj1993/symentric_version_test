@@ -46,7 +46,7 @@ jobs:
          #echo $NEW_TAG
       - name: Create version Tag
         run: |
-         echo ${{vars.NEW_TAG}}
+         echo ${NEW_TAG}
          #git config user.name "${{ github.repository_owner }}"
          #git config user.email "pkj1993@gmail.com"
          #git tag $NEW_TAG
