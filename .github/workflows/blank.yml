@@ -60,4 +60,13 @@ jobs:
           echo "::save-state name=latest_tag::$LATEST_TAG"
 
       - name: Display latest tag
-        run: echo "Latest tag is ${{ steps.latest-tag.outputs.latest_tag }}"         
+        run: echo "Latest tag is ${{ steps.latest-tag.outputs.latest_tag }}" 
+
+      - name: Print GitHub tag
+        run: |
+          if [[ $GITHUB_REF =~ refs/tags/ ]]; then
+            TAG=${GITHUB_REF#refs/tags/}
+            echo "GitHub tag: $TAG"
+          else
+            echo "Not a tag."
+          fi  
