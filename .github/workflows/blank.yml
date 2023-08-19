@@ -31,7 +31,7 @@ jobs:
         
       - name: Get tags
         id: get-tags
-         env:
+        env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: echo "::save-state name=tags::$(git tag -l)"
         
