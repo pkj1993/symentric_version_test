@@ -32,7 +32,7 @@ jobs:
         run: |
           repo_owner=${{ github.repository_owner }}
           repo_name=${{ github.repository }}
-          repo_tags=$(curl -s "https://api.github.com/repos/$repo_owner/$repo_name/tags" | jq -r '.[].name')
+          repo_tags=$(curl -s "https://api.github.com/repos/$repo_owner/$repo_name/tags" | jq -r '.[]' | sed -e 's|refs/tags/||')
 
           echo "Repository Tags:"
           echo "$repo_tags"
