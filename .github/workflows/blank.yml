@@ -39,7 +39,7 @@ jobs:
           #api_response=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/$repo_owner/$repo_name/git/refs/tags")
           #repo_tags=$(echo "$api_response" | grep -oP '(?<="ref": "refs/tags/)[^"]*')
           echo "${GITHUB_REF#refs/tags/}"
-          git tags
+          git tag
           #echo "$repo_name"
           #echo "Repository Tags:"
           #echo "$api_response"
