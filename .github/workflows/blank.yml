@@ -28,6 +28,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Print GitHub tag
-        run: echo "GitHub tag:${{ github.ref }}"
+      - name: List repository tags
+        run: |
+          repo_owner=${{ github.repository_owner }}
+          repo_name=${{ github.repository }}
+          repo_tags=$(curl -s "https://api.github.com/repos/$repo_owner/$repo_name/tags" | jq -r '.[].name')
+
+          echo "Repository Tags:"
+          echo "$repo_tags"
 
