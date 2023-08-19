@@ -42,16 +42,14 @@ jobs:
         run: |
          LATEST_TAG1=1.0.0
          task_name="feat"
-         echo $LATEST_TAG1
-         echo $task_name
          NEW_TAG=$(python ./.github/workflows/version.py $LATEST_TAG1 $task_name)
-         echo $NEW_TAG
+         #echo $NEW_TAG
       - name: Create version Tag
         run: |
-         $NEW_TAG=1.0.2
-         git config user.name "${{ github.repository_owner }}"
-         git config user.email "pkj1993@gmail.com"
-         git tag $NEW_TAG
-         git push origin $NEW_TAG
+         echo ${{vars.NEW_TAG}}
+         #git config user.name "${{ github.repository_owner }}"
+         #git config user.email "pkj1993@gmail.com"
+         #git tag $NEW_TAG
+         #git push origin $NEW_TAG
           
       
