@@ -44,4 +44,5 @@ jobs:
           #echo "Repository Tags:"
           #echo "$api_response"
           #echo "$repo_tags"
+          echo ${{get_tags.output.tag}}
         
