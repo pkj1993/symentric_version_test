@@ -40,7 +40,7 @@ jobs:
           #repo_tags=$(echo "$api_response" | grep -oP '(?<="ref": "refs/tags/)[^"]*')
           VERSION=${GITHUB_REF#refs/tags/}
           MAJOR=${VERSION%%.*}
-          #echo "$VERSION"
+          echo "$VERSION"
           #echo "Repository Tags:"
           #echo "$api_response"
           #echo "$repo_tags"
