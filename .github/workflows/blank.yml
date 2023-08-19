@@ -35,7 +35,7 @@ jobs:
           python-version: 3.9 
      
       - name: code validation
-        run: python -m pip insatll pre-commit
+        run: python -m pip install pre-commit
       
       - name: code validation
         run: pre-commit run --all-file 
