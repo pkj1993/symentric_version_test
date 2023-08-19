@@ -40,7 +40,8 @@ jobs:
           python-version: '3.10' # install the python version needed
       - name: execute py script # run main.py
         run: |
+         LATEST_TAG1=1.0.0
          task_name="feat"
-         echo $LATEST_TAG
+         echo $LATEST_TAG1
          echo $task_name
-         python ./.github/workflows/version.py $LATEST_TAG $task_name
+         python ./.github/workflows/version.py $LATEST_TAG1
