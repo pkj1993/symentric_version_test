@@ -41,5 +41,6 @@ jobs:
           echo "$repo_owner"
           echo "$repo_name"
           #echo "Repository Tags:"
+          echo "$api_response"
           #echo "$repo_tags"
         
