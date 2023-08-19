@@ -28,6 +28,17 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
+
+      - name: set up python
+        uses: gh-actions/setup-pyrhon@v3
+        with:
+           python-version: 3.9
+      
+      - name: install dependency
+        run: python -m pip install pre-commit 
+      
+      - name: code validation
+        run: pre-commit run --all-file 
         
       - name: determine tag
         run: echo "New tag created:${{ github.ref }}"
