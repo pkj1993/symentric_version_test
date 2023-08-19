@@ -34,15 +34,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
         run: |
-          repo_owner=${{ github.repository_owner }}
-          repo_name=${{ github.repository }}
+          #repo_owner=${{ github.repository_owner }}
+          #repo_name=${{ github.repository }}
           #api_response=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/$repo_owner/$repo_name/git/refs/tags")
           #repo_tags=$(echo "$api_response" | grep -oP '(?<="ref": "refs/tags/)[^"]*')
-          VERSION=${GITHUB_REF#refs/tags/}
-          MAJOR=${VERSION%%.*}
-          echo "$VERSION"
+          #VERSION=${GITHUB_REF#refs/tags/}
+          #MAJOR=${VERSION%%.*}
+          #echo "$VERSION"
           #echo "Repository Tags:"
           #echo "$api_response"
           #echo "$repo_tags"
           #echo "${{steps.get_tags.output.tag}}"
-        
+          echo "tag=${GITHUB_REF#refs/*/}" >>$GITHUB_OUTPUT
+          echo ${{steps.get_tags.outputs.tag}}
