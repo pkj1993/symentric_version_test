@@ -39,32 +39,7 @@ jobs:
      
       - name: code validation
         run: python -m pip install pre-commit
-    
         
-      - name: determine tag
-        run: |
-        
-         echo \"RELEASE_TAG=${GITHU_REF#refs/tags/}\" >> $GITHUB_ENV
-         echo $GITHUB_ENV
-      
-      - name: Get tags
-        id: get-tags
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-           echo "::save-state name=tags::$(git tag -l)"
-           git tag -l
-        
-      - name: Find latest tag
-        id: latest-tag
-        run: |
-          TAGS=${{ steps.get-tags.outputs.tags }}
-          LATEST_TAG=$(echo "$TAGS" | tr ' ' '\n' | sort -V | tail -n 1)
-          echo "::save-state name=latest_tag::$LATEST_TAG"
-
-      - name: Display latest tag
-        run: echo "Latest tag is ${{ steps.latest-tag.outputs.latest_tag }}" 
-
       - name: Print GitHub tag
         run: |
           if [[ "${{ github.ref }}" =~ refs/tags/ ]]; then
