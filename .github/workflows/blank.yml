@@ -69,4 +69,9 @@ jobs:
             echo "GitHub tag: $TAG"
           else
             echo "Not a tag."
-          fi  
+          fi
+        shell: bash
+        env:
+          pythonLocation: /opt/hostedtoolcache/Python/3.9.17/x64
+          LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.9.17/x64/lib
+          RELEASE_TAG: ${{ github.ref }} 
