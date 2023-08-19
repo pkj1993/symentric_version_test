@@ -35,7 +35,7 @@ jobs:
         run: |
           repo_owner=${{ github.repository_owner }}
           repo_name=${{ github.repository }}
-          repo_tags=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/$repo_owner/$repo_name/tags" | jq -r '.[].name')
+          repo_tags=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/$repo_owner/$repo_name/git/refs/tags" | jq -r '.[].ref' | sed -e 's|refs/tags/||')
 
           echo "Repository Tags:"
           echo "$repo_tags"
