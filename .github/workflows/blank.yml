@@ -29,6 +29,9 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
         
+      - name: determine tag
+        run: echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      
       - name: Get tags
         id: get-tags
         env:
