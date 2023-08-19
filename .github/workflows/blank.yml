@@ -32,9 +32,13 @@ jobs:
         id: get-tags
         run: echo "::set-output name=tags::$(git tag -l)"
         
-
-      # Runs a set of commands using the runners shell
-      - name: get the latest tag in repositry 
+      - name: Find latest tag
+        id: latest-tag
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+         TAGS=${{ steps.get-tags.outputs.tags }}
+         TAG_LIST=(${TAGS// / })
+         LATEST_TAG=${TAG_LIST[${#TAG_LIST[@]} - 1]}
+         echo "::set-output name=latest_tag::${LATEST_TAG}"
+
+      - name: Display latest tag
+        run: echo "Latest tag is ${{ steps.latest-tag.outputs.latest_tag }}"         
