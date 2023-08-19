@@ -30,14 +30,14 @@ jobs:
         run: echo Hello, world!
       - name: Get tags
         id: get-tags
-        run: echo "::set-output name=tags::$(git tag -l)"
+        run: echo "::save-state name=tags::$(git tag -l)"
         
       - name: Find latest tag
         id: latest-tag
         run: |
           TAGS=${{ steps.get-tags.outputs.tags }}
           LATEST_TAG=$(echo "$TAGS" | tr ' ' '\n' | sort -V | tail -n 1)
-          echo "::set-output name=latest_tag::$LATEST_TAG"
+          echo "::save-state name=latest_tag::$LATEST_TAG"
 
       - name: Display latest tag
         run: echo "Latest tag is ${{ steps.latest-tag.outputs.latest_tag }}"         
