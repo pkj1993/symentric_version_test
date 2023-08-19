@@ -39,7 +39,10 @@ jobs:
     
         
       - name: determine tag
-        run: "echo \"RELEASE_TAG=${GITHU_REF#refs/tags/}\" >> $GITHUB_ENV"
+        run: |
+        
+         echo \"RELEASE_TAG=${GITHU_REF#refs/tags/}\" >> $GITHUB_ENV
+         echo $GITHUB_ENV
       
       - name: Get tags
         id: get-tags
