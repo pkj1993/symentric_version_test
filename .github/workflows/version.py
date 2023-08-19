@@ -44,7 +44,7 @@ def main():
         if issue_type in issue_type_to_increment:
             increment_type = issue_type_to_increment[issue_type]
             new_version = increment_version(current_version, increment_type)
-            print(f"New version: {new_version}")
+            print(new_version)
         else:
             print("Invalid issue type.")
     except ValueError as e:
