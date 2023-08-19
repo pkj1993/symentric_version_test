@@ -35,7 +35,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
            echo "::save-state name=tags::$(git tag -l)"
-           echo git tag -l
+           git tag -l
         
       - name: Find latest tag
         id: latest-tag
