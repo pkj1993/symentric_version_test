@@ -46,7 +46,10 @@ jobs:
          echo $task_name
          NEW_TAG=$(python ./.github/workflows/version.py $LATEST_TAG1 $task_name)
          echo $NEW_TAG
-      #- name: Create version Tag
-       # run: | 
+      - name: Create version Tag
+        run: |
+         $NEW_TAG=1.0.2
+         git tag $NEW_TAG
+         git push origin $NEW_TAG
           
       
