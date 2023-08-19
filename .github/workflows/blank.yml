@@ -30,4 +30,4 @@ jobs:
 
       - name: Get Repository Tags
         run: |
-           echo "latest_tags=$(git tag | sort --version-sort | tail -n1)"
+           echo "GIT_TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
