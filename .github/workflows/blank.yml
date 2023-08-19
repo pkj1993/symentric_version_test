@@ -35,10 +35,9 @@ jobs:
       - name: Find latest tag
         id: latest-tag
         run: |
-         TAGS=${{ steps.get-tags.outputs.tags }}
-         TAG_LIST=(${TAGS// / })
-         LATEST_TAG=${TAG_LIST[${#TAG_LIST[@]} - 1]}
-         echo "::set-output name=latest_tag::${LATEST_TAG}"
+          TAGS=${{ steps.get-tags.outputs.tags }}
+          LATEST_TAG=$(echo "$TAGS" | tr ' ' '\n' | sort -V | tail -n 1)
+          echo "::set-output name=latest_tag::$LATEST_TAG"
 
       - name: Display latest tag
         run: echo "Latest tag is ${{ steps.latest-tag.outputs.latest_tag }}"         
