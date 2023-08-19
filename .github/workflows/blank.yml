@@ -44,4 +44,9 @@ jobs:
          task_name="feat"
          echo $LATEST_TAG1
          echo $task_name
-         python ./.github/workflows/version.py $LATEST_TAG1 $task_name
+         NEW_TAG=$(python ./.github/workflows/version.py $LATEST_TAG1 $task_name)
+         echo $NEW_TAG
+      #- name: Create version Tag
+       # run: | 
+          
+      
