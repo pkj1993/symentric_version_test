@@ -30,7 +30,7 @@ jobs:
         run: echo Hello, world!
 
       - name: set up python
-        uses: gh-actions/setup-pyrhon@v3
+        uses: gh-actions/setup-python@v3
         with:
            python-version: 3.9
       
