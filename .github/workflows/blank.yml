@@ -34,3 +34,4 @@ jobs:
         run: |
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
+          git for-each-ref refs/tags
