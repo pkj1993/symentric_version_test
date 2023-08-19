@@ -34,6 +34,7 @@ def main():
         current_version=sys.argv[1]
         issue_type=sys.argv[2]
         print(current_version)
+        print(issue_type)
         #current_version = input("Enter current version (MAJOR.MINOR.PATCH, or leave empty for 0.0.0): ").strip()
         if not current_version:
             current_version = '0.0.0'
