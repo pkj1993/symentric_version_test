@@ -31,5 +31,8 @@ jobs:
          fetch-depth: 0
       - name: Get Repository Tags
         run: |
-           echo "GIT_TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
-           git tag
+          echo "tag=${GITHUB_REF#refs/*/}" >>$GITHUB_OUTPUT
+          echo "$GITHUB_OUTPUT"
+          echo "----"
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "$LATEST_TAG"
