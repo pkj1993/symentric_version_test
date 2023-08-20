@@ -30,6 +30,7 @@ jobs:
         with:
          fetch-depth: 0
       - name: Get Repository Tags
+        id: repository-tag
         run: |
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           echo "$LATEST_TAG"
@@ -42,7 +43,7 @@ jobs:
         run: |
          LATEST_TAG1=1.0.0
          task_name="feat"
-         NEW_TAG=$(python ./.github/workflows/version.py $LATEST_TAG1 $task_name)
+         NEW_TAG=$(python ./.github/workflows/version.py ${{ steps.repository-tag.output.LATEST_TAG}} $task_name)
          #echo $NEW_TAG
       - name: Create version Tag
         run: |
