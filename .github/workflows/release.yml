@@ -27,6 +27,10 @@ jobs:
         with:
           python-version: '3.10' # install the python version needed
 
+      - name: Debug Event Payload
+        run: cat $GITHUB_EVENT_PATH
+ 
+      
       - name: Check PR Bumper Label
         run: |
           # Fetch commit messages from the pull request
