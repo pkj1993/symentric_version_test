@@ -1,0 +1,30 @@
+name: Get Issue Type from PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  get_issue_type:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Extract issue type
+        run: |
+          ISSUE_TYPE=$(echo "${{ github.event.pull_request.title }}" | grep -Eo 'feat')
+          echo "Issue Type: $ISSUE_TYPE"
+
+      - name: Use the extracted issue type
+        run: |
+          # Use $ISSUE_TYPE for further actions or logic
+          if [[ "$ISSUE_TYPE" == "feat" ]]; then
+            echo "It's a feature!"
+            # Perform actions specific to features
+          else
+            echo "It's not a feature."
+          fi
