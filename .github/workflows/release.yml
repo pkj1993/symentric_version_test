@@ -1,6 +1,5 @@
 name: Release
 on:
-  push:
   workflow_dispatch:
   pull_request:
     types:
@@ -29,6 +28,11 @@ jobs:
 
       - name: Debug Event Payload
         run: cat $GITHUB_EVENT_PATH
+
+      - name: Extract issue type
+        run: |
+          ISSUE_TYPE=$(echo "${{ github.event.pull_request.title }}" | grep -Eo 'feat')
+          echo "Issue Type: $ISSUE_TYPE"  
 
       - name: Debug API Response
         run: |
