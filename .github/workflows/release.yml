@@ -29,13 +29,19 @@ jobs:
 
       - name: Check PR Bumper Label
         run: |
-          commit_messages=$(git log --format=%s ${{ github.event.before }}..${{ github.event.after }})
-          if echo "$commit_messages" | grep -q "pr-bumper"; then
-            echo "Found 'pr-bumper' in commit messages."
-            # Run the commands for the PR Bumper task
-          else
-            echo "No 'pr-bumper' in commit messages."
-          fi
+          # Fetch commit messages from the pull request
+          PR_NUMBER=$(jq --raw-output .number "$GITHUB_EVENT_PATH")
+          COMMITS=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/commits" -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" | jq -r ".[].commit.message")
+
+          # Regular expression pattern for conventional commit messages
+          PATTERN='^(feat|fix|chore|docs|style|refactor|perf|test)(\([A-Za-z0-9-]+\))?: .+'
+
+          for COMMIT in $COMMITS; do
+            if ! [[ $COMMIT =~ $PATTERN ]]; then
+              echo "Error: Commit message doesn't follow conventional format: $COMMIT"
+              exit 1
+            fi
+          done
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         shell: bash          
