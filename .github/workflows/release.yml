@@ -29,11 +29,12 @@ jobs:
 
       - name: Check PR Bumper Label
         run: |
-          if [[ $(jq -r '.labels[] | .name' "$GITHUB_EVENT_PATH") =~ "pr-bumper" ]]; then
-            echo "This PR has the PR Bumper label."
+          commit_messages=$(git log --format=%s ${{ github.event.before }}..${{ github.event.after }})
+          if echo "$commit_messages" | grep -q "pr-bumper"; then
+            echo "Found 'pr-bumper' in commit messages."
             # Run the commands for the PR Bumper task
           else
-            echo "This PR does not have the PR Bumper label."
+            echo "No 'pr-bumper' in commit messages."
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
