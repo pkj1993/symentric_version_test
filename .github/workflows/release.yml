@@ -1,13 +1,20 @@
 name: Release
 on:
   workflow_dispatch:
+  pull_request:
+    types:
+     - closed
+    branches:
+     - 'master/**'
 jobs:
-  build:
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
          fetch-depth: 0
+         
       - name: Get Repository Tags
         id: repository-tag
         run: |
@@ -18,6 +25,18 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10' # install the python version needed
+
+      - name: Check PR Bumper Label
+        run: |
+          if [[ $(jq -r '.labels[] | .name' "$GITHUB_EVENT_PATH") =~ "pr-bumper" ]]; then
+            echo "This PR has the PR Bumper label."
+            # Run the commands for the PR Bumper task
+          else
+            echo "This PR does not have the PR Bumper label."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash          
 
       - name: Release snapshot
         uses: actions/create-release@latest
