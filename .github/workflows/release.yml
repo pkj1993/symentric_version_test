@@ -27,6 +27,15 @@ jobs:
         with:
           python-version: '3.10' # install the python version needed
 
+      - name: Debug Event Payload
+        run: cat $GITHUB_EVENT_PATH
+
+      - name: Debug API Response
+        run: |
+         API_RESPONSE=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/commits" -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}")
+         echo "$API_RESPONSE"
+   
+
       - name: Check PR Bumper Label
         run: |
           # Fetch commit messages from the pull request
