@@ -1,4 +1,4 @@
-name: PR Bumper Commit Handling
+name: Auto Tag and Identify PR
 
 on:
   pull_request:
@@ -6,21 +6,36 @@ on:
       - closed
 
 jobs:
-  handle_bumper_commits:
+  tag_and_identify:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
+    - name: Check out code
+      uses: actions/checkout@v2
+      with:
          fetch-depth: 0
-
-      - name: Extract and process bumper commits
-        run: |
-          if [[ "${{ github.event.pull_request.merged }}" == "true" && "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
-            git log --pretty=format:%s ${GITHUB_REF/refs\/pull\//...}..HEAD | grep -E 'feat|fix|test|style|doc' | while read -r line; do
-              echo "Processing commit: $line"
-              echo "$line"
-              # Add your logic to handle each commit type here
-            done
-          fi
+    
+    - name: Identify PR Type and Tag Repository
+      id: tag_and_identify
+      env:
+       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: |
+        # Use GitHub API to get the PR details
+        PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | awk -F'/' '{print $NF}')
+        PR_DETAILS=$(curl -s -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+                      "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
+        
+        # Extract issue type from PR title
+        PR_TITLE=$(echo "$PR_DETAILS" | jq -r '.title')
+        if echo "$PR_TITLE" | grep -qiE 'feat|fix'; then
+          ISSUE_TYPE="fix"
+        elif echo "$PR_TITLE" | grep -qiE 'feat|fix'; then
+          ISSUE_TYPE="Feat"
+        else
+          ISSUE_TYPE="Other"
+        fi
+        
+        echo "::set-output name=issue_type::$ISSUE_TYPE"    
+      
+    outputs:
+      issue_type: ${{ steps.tag_and_identify.outputs.issue_type }}
