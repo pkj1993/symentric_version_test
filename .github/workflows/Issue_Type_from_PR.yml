@@ -25,7 +25,6 @@ jobs:
         PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | awk -F'/' '{print $NF}')
         PR_DETAILS=$(curl -s -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
                       "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
-
         echo "$PR_TITLE"
         # Extract issue type from PR title
         PR_TITLE=$(echo "$PR_DETAILS" | jq -r '.title')
@@ -33,10 +32,12 @@ jobs:
         if echo "$PR_TITLE" | grep -qiE 'feat'; then
           ISSUE_TYPE="feat"
         elif echo "$PR_TITLE" | grep -qiE 'fix'; then
-          ISSUE_TYPE="fix"
+          ISSUE_TYPE="Fix"
         else
           ISSUE_TYPE="Other"
         fi
+        
+        echo "$ISSUE_TYPE"
         echo "::set-output name=issue_type::$ISSUE_TYPE"
        
       
