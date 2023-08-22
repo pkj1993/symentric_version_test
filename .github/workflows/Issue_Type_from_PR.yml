@@ -20,6 +20,23 @@ jobs:
           if [[ "${{ github.event.pull_request.merged }}" == "true" && "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
             git log --pretty=format:%s ${GITHUB_REF/refs\/pull\//...}..HEAD | grep -E 'feat|fix|test|style|doc' | while read -r line; do
               echo "Processing commit: $line"
-              # Add your logic to handle each commit type here
+              if [[ "$line" =~ "feat" ]]; then
+                echo "Handling feature commit"
+                # Example logic: Increment version, update changelog, etc.
+              elif [[ "$line" =~ "fix" ]]; then
+                echo "Handling fix commit"
+                # Example logic: Apply bug fixes
+              elif [[ "$line" =~ "test" ]]; then
+                echo "Handling test commit"
+                # Example logic: Run tests
+              elif [[ "$line" =~ "style" ]]; then
+                echo "Handling style commit"
+                # Example logic: Apply code style formatting
+              elif [[ "$line" =~ "doc" ]]; then
+                echo "Handling documentation commit"
+                # Example logic: Update documentation
+              else
+                echo "Commit type not recognized"
+              fi
             done
           fi
