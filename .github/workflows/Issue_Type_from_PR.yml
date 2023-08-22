@@ -1,9 +1,11 @@
 name: Auto Tag and Identify PR
 
 on:
-  pull_request:
-    types:
-      - closed
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   tag_and_identify:
