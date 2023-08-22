@@ -27,23 +27,23 @@ jobs:
         run: cat $GITHUB_EVENT_PATH
 
       - name: Check PR Bumper Label
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        shell: bash  
         run: |
           # Fetch commit messages from the pull request
           PR_NUMBER=$(jq --raw-output .number "$GITHUB_EVENT_PATH")
           COMMITS=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/commits" -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" | jq -r ".[].commit.message")
 
           # Regular expression pattern for conventional commit messages
-          PATTERN='^(feat|fix|chore|docs|style|refactor|perf|test))?: .+'
+          PATTERN='^(feat|fix|chore|docs|style|refactor|perf|test): .+'
 
           for COMMIT in $COMMITS; do
             if ! [[ $COMMIT =~ $PATTERN ]]; then
               echo "Error: Commit message doesn't follow conventional format: $COMMIT"
               exit 1
             fi
-          done
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        shell: bash          
+          done        
 
       - name: Release snapshot
         uses: actions/create-release@latest
