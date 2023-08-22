@@ -16,13 +16,36 @@ jobs:
       with:
          fetch-depth: 0
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+          node-version: 14
+
+    - name: Get PR title
+      id: pr_title
+      run: echo "::set-output name=title::$(jq --raw-output .pull_request.title $GITHUB_EVENT_PATH)"
+
     - name: Determine issue type
-      id: determine-type
+      id: issue_type
       run: |
-        issue_type=$(git log --format=%B -n 1 ${{ github.event.before }}..${{ secrets.GH_TOKEN }} | grep -Eo '^(feat|fix|doc|refactor)' || true)
-        echo "Issue type: $issue_type"
-        echo "::set-output name=issue_type::$issue_type"
-        echo "$issue_type"
+          title="${{ steps.pr_title.outputs.title }}"
+          echo "$title"
+          if [[ $title =~ ^feat ]]; then
+            echo "feat"
+          elif [[ $title =~ ^fix ]]; then
+            echo "fix"
+          elif [[ $title =~ ^doc ]]; then
+            echo "doc"
+          elif [[ $title =~ ^refactor ]]; then
+            echo "refactor"
+          else
+            echo "unknown"
+          fi
+      env:
+          pr_title: ${{ steps.pr_title.outputs.title }}
+
+    - name: Print issue type
+      run: echo "Issue type:${{ steps.issue_type.outputs.issue_type }}"
     
     - name: Identify PR Type and Tag Repository
       id: tag_and_identify
