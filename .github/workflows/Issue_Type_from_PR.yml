@@ -52,4 +52,4 @@ jobs:
        
       
     outputs:
-      issue_type: ${{ steps.tag_and_identify.outputs.issue_type }}
+      issue_type: ${{ steps.tag_and_identify.outputs.GITHUB_ENV }}
