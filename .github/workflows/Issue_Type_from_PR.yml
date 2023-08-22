@@ -15,38 +15,7 @@ jobs:
       uses: actions/checkout@v2
       with:
          fetch-depth: 0
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-          node-version: 14
-
-    - name: Get PR title
-      id: pr_title
-      run: echo "::set-output name=title::$(jq --raw-output .pull_request.title $GITHUB_EVENT_PATH)"
-
-    - name: Determine issue type
-      id: issue_type
-      run: |
-          title="${{ steps.pr_title.outputs.title }}"
-          echo "$title"
-          if [[ $title =~ ^feat ]]; then
-            echo "feat"
-          elif [[ $title =~ ^fix ]]; then
-            echo "fix"
-          elif [[ $title =~ ^doc ]]; then
-            echo "doc"
-          elif [[ $title =~ ^refactor ]]; then
-            echo "refactor"
-          else
-            echo "unknown"
-          fi
-      env:
-          pr_title: ${{ steps.pr_title.outputs.title }}
-
-    - name: Print issue type
-      run: echo "Issue type:${{ steps.issue_type.outputs.issue_type }}"
-    
+          
     - name: Identify PR Type and Tag Repository
       id: tag_and_identify
       env:
@@ -64,13 +33,11 @@ jobs:
         if echo "$PR_TITLE" | grep -qiE 'feat'; then
           ISSUE_TYPE="feat"
         elif echo "$PR_TITLE" | grep -qiE 'fix'; then
-          ISSUE_TYPE="Fix"
+          ISSUE_TYPE="fix"
         else
           ISSUE_TYPE="Other"
         fi
-        
-        echo "$ISSUE_TYPE"
-        echo "::set-output name=issue_type::$ISSUE_TYPE"
+        echo "issue_type=$ISSUE_TYPE" >> $GITHUB_ENV
        
       
     outputs:
