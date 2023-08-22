@@ -47,7 +47,8 @@ jobs:
           ISSUE_TYPE="Other"
         fi
          echo "::set-output name=issue_type::$ISSUE_TYPE"
+         echo "$issue_type"
        
       
     outputs:
-      issue_type: ${{ steps.tag_and_identify.outputs.ISSUE_TYPE }}
+      issue_type: ${{ steps.tag_and_identify.outputs.issue_type }}
