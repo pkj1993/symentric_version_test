@@ -46,7 +46,8 @@ jobs:
         else
           ISSUE_TYPE="Other"
         fi
-        echo "issue_type=$ISSUE_TYPE" >> $GITHUB_ENV
+        echo "type:$ISSUE_TYPE"
+        echo "::set-output name=issue_type::$ISSUE_TYPE"
        
       
     outputs:
