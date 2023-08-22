@@ -48,6 +48,7 @@ jobs:
         fi
         echo "type:$ISSUE_TYPE"
         echo "::set-output name=issue_type::$ISSUE_TYPE"
+        echo "type2:$issue_type"
        
       
     outputs:
