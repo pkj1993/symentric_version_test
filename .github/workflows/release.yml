@@ -33,7 +33,7 @@ jobs:
           COMMITS=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/commits" -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" | jq -r ".[].commit.message")
 
           # Regular expression pattern for conventional commit messages
-          PATTERN='^(feat|fix|chore|docs|style|refactor|perf|test)(\([A-Za-z0-9-]+\))?: .+'
+          PATTERN='^(feat|fix|chore|docs|style|refactor|perf|test))?: .+'
 
           for COMMIT in $COMMITS; do
             if ! [[ $COMMIT =~ $PATTERN ]]; then
