@@ -12,9 +12,13 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
+      with:
+         fetch-depth: 0
     
     - name: Identify PR Type and Tag Repository
       id: tag_and_identify
+      env:
+       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         # Use GitHub API to get the PR details
         PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | awk -F'/' '{print $NF}')
@@ -23,22 +27,15 @@ jobs:
         
         # Extract issue type from PR title
         PR_TITLE=$(echo "$PR_DETAILS" | jq -r '.title')
-        if echo "$PR_TITLE" | grep -qiE 'bug|fix'; then
-          ISSUE_TYPE="Bug"
-        elif echo "$PR_TITLE" | grep -qiE 'feature|enhance'; then
-          ISSUE_TYPE="Feature"
+        if echo "$PR_TITLE" | grep -qiE 'feat|fix'; then
+          ISSUE_TYPE="fix"
+        elif echo "$PR_TITLE" | grep -qiE 'feat|fix'; then
+          ISSUE_TYPE="Feat"
         else
           ISSUE_TYPE="Other"
         fi
         
-        # Tag the repository with the identified issue type
-        git tag "$ISSUE_TYPE" -m "Tagged as $ISSUE_TYPE issue" || true
-        git push origin "$ISSUE_TYPE" || true
-        
-        echo "::set-output name=issue_type::$ISSUE_TYPE"
-        
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        echo "::set-output name=issue_type::$ISSUE_TYPE"    
       
     outputs:
       issue_type: ${{ steps.tag_and_identify.outputs.issue_type }}
