@@ -22,6 +22,7 @@ jobs:
         issue_type=$(git log --format=%B -n 1 ${{ github.event.before }}..${{ github.sha }} | grep -Eo '^(feat|fix|doc|refactor)' || true)
         echo "Issue type: $issue_type"
         echo "::set-output name=issue_type::$issue_type"
+        echo "$issue_type"
     
     - name: Identify PR Type and Tag Repository
       id: tag_and_identify
