@@ -5,10 +5,6 @@ on:
   pull_request:
     types:
       - closed
-  push:
-    branches:
-      - main
-      - master
 
 jobs:
   tag_and_identify:
@@ -19,6 +15,14 @@ jobs:
       uses: actions/checkout@v2
       with:
          fetch-depth: 0
+
+    - name: Determine issue type
+      id: determine-type
+      run: |
+          issue_type=$(git log --format=%B -n 1 ${{ github.event.before }}..${{ github.event.after }} | grep -Eo '^(feat|fix|doc|refactor)')
+          echo "Issue type: $issue_type"
+          echo "::set-output name=issue_type::$issue_type"     
+          echo "$issue_type"
     
     - name: Identify PR Type and Tag Repository
       id: tag_and_identify
