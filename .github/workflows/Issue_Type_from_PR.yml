@@ -29,15 +29,23 @@ jobs:
         # Extract issue type from PR title
         PR_TITLE=$(echo "$PR_DETAILS" | jq -r '.title')
         echo "$PR_TITLE"
-        if echo "$PR_TITLE" | grep -qiE 'feat'; then
+        if echo "$PR_TITLE" | grep -qiE 'chore'; then
+          ISSUE_TYPE="chore"
+        elif echo "$PR_TITLE" | grep -qiE 'docs'; then
+          ISSUE_TYPE="docs"
+        elif echo "$PR_TITLE" | grep -qiE 'feat'; then
           ISSUE_TYPE="feat"
         elif echo "$PR_TITLE" | grep -qiE 'fix'; then
-          ISSUE_TYPE="Fix"
+          ISSUE_TYPE="fix"
+        elif echo "$PR_TITLE" | grep -qiE 'refactor'; then
+          ISSUE_TYPE="refactor" 
+        elif echo "$PR_TITLE" | grep -qiE 'style'; then
+          ISSUE_TYPE="style"
+        elif echo "$PR_TITLE" | grep -qiE 'test'; then
+          ISSUE_TYPE="test"   
         else
           ISSUE_TYPE="Other"
         fi
-        
-        echo "$ISSUE_TYPE"
         echo "::set-output name=issue_type::$ISSUE_TYPE"
        
       
