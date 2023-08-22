@@ -4,8 +4,6 @@ on:
   pull_request:
     types:
      - closed
-    branches:
-     - 'master'
 jobs:
   if_merged:
     if: github.event.pull_request.merged == false
@@ -28,17 +26,6 @@ jobs:
 
       - name: Debug Event Payload
         run: cat $GITHUB_EVENT_PATH
-
-      - name: Extract issue type
-        run: |
-          ISSUE_TYPE=$(echo "${{ github.event.pull_request.title }}" | grep -Eo 'feat')
-          echo "Issue Type: $ISSUE_TYPE"  
-
-      - name: Debug API Response
-        run: |
-         API_RESPONSE=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/commits" -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}")
-         echo "$API_RESPONSE"
-   
 
       - name: Check PR Bumper Label
         run: |
