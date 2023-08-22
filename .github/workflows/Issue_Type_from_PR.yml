@@ -1,30 +1,25 @@
-name: Get Issue Type from PR
+name: PR Bumper Commit Handling
 
 on:
   pull_request:
     types:
-      - opened
-      - synchronize
+      - closed
 
 jobs:
-  get_issue_type:
+  handle_bumper_commits:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+         fetch-depth: 0
 
-      - name: Extract issue type
+      - name: Extract and process bumper commits
         run: |
-          ISSUE_TYPE=$(echo "${{ github.event.pull_request.title }}" | grep -Eo 'feat')
-          echo "Issue Type: $ISSUE_TYPE"
-
-      - name: Use the extracted issue type
-        run: |
-          # Use $ISSUE_TYPE for further actions or logic
-          if [[ "$ISSUE_TYPE" == "feat" ]]; then
-            echo "It's a feature!"
-            # Perform actions specific to features
-          else
-            echo "It's not a feature."
+          if [[ "${{ github.event.pull_request.merged }}" == "true" && "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
+            git log --pretty=format:%s ${GITHUB_REF/refs\/pull\//...}..HEAD | grep -E 'feat|fix|test|style|doc' | while read -r line; do
+              echo "Processing commit: $line"
+              # Add your logic to handle each commit type here
+            done
           fi
