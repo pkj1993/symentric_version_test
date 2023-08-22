@@ -19,7 +19,7 @@ jobs:
     - name: Determine issue type
       id: determine-type
       run: |
-        issue_type=$(git log --format=%B -n 1 ${{ github.event.before }}..${{ github.sha }} | grep -Eo '^(feat|fix|doc|refactor)' || true)
+        issue_type=$(git log --format=%B -n 1 ${{ github.event.before }}..${{ secrets.GH_TOKEN }} | grep -Eo '^(feat|fix|doc|refactor)' || true)
         echo "Issue type: $issue_type"
         echo "::set-output name=issue_type::$issue_type"
         echo "$issue_type"
