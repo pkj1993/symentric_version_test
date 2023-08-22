@@ -22,6 +22,7 @@ jobs:
           echo "Bump Commit Message: $BUMP_COMMIT_MESSAGE"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_SHA: ${{ github.sha }}
 
       - name: Print conventional commit message
         run: |
